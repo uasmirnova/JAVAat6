@@ -2,10 +2,10 @@ package ru.netology.web.page;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
+import ru.netology.web.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class TransactionPage {
 
@@ -23,7 +23,7 @@ public class TransactionPage {
         return new DashboardPage();
     }
 
-    public void invalidTransaction(String sum, String cardNum) {
+    public void invalidTransaction(String sum, String cardNumber) {
         sumField.sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         sumField.setValue(sum);
         errorNotification.shouldBe(visible);

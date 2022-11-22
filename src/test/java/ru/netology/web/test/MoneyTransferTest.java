@@ -1,6 +1,5 @@
 package ru.netology.web.test;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
@@ -28,16 +27,17 @@ public class MoneyTransferTest {
     void shouldTransferMoneyBetweenOwnCards() {
         int sum = 1;
         var loginPage = new LoginPage();
-        var authInfo = new DataHelper.AuthInfo();
+        var authInfo = DataHelper.getAuthInfo();
+        var codeInfo = DataHelper.getCodeInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        dashboardPage = verificationPage.validVerify(authInfo);
-        startBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        startBalance2 = dashboardPage.getBalance(dashboardPage.card2);
-        var transactionPage = dashboardPage.clickTransaction(dashboardPage.card2);
+        dashboardPage = verificationPage.validVerify(codeInfo);
+        startBalance1 = dashboardPage.getBalanceFirst();
+        startBalance2 = dashboardPage.getBalanceSecond();
+        var transactionPage = dashboardPage.clickTransaction(DataHelper.getSecondCard());
         var cardNumber = DataHelper.getFirstCard().getNumber();
         var dashboardPage = transactionPage.validTransaction(Integer.toString(sum), String.valueOf(cardNumber));
-        finishBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        finishBalance2 = dashboardPage.getBalance(dashboardPage.card2);
+        finishBalance1 = dashboardPage.getBalanceFirst();
+        finishBalance2 = dashboardPage.getBalanceSecond();
         assertEquals(startBalance1 - sum, finishBalance1);
         assertEquals(startBalance2 + sum, finishBalance2);
     }
@@ -46,16 +46,17 @@ public class MoneyTransferTest {
     void shouldTransferMoneyBetweenOwnCards2() {
         int sum = 1;
         var loginPage = new LoginPage();
-        var authInfo = new DataHelper.AuthInfo();
+        var authInfo = DataHelper.getAuthInfo();
+        var codeInfo = DataHelper.getCodeInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        dashboardPage = verificationPage.validVerify(authInfo);
-        startBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        startBalance2 = dashboardPage.getBalance(dashboardPage.card2);
-        var transactionPage = dashboardPage.clickTransaction(dashboardPage.card1);
+        dashboardPage = verificationPage.validVerify(codeInfo);
+        startBalance1 = dashboardPage.getBalanceFirst();
+        startBalance2 = dashboardPage.getBalanceSecond();
+        var transactionPage = dashboardPage.clickTransaction(DataHelper.getFirstCard());
         var cardNumber = DataHelper.getSecondCard().getNumber();
         var dashboardPage = transactionPage.validTransaction(Integer.toString(sum), String.valueOf(cardNumber));
-        finishBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        finishBalance2 = dashboardPage.getBalance(dashboardPage.card2);
+        finishBalance1 = dashboardPage.getBalanceFirst();
+        finishBalance2 = dashboardPage.getBalanceSecond();
         assertEquals(startBalance1 + sum, finishBalance1);
         assertEquals(startBalance2 - sum, finishBalance2);
     }
@@ -64,12 +65,13 @@ public class MoneyTransferTest {
     void shouldNotTransferMoneyBetweenCardsOverLimit() {
         int sum = startBalance2 + 1;
         var loginPage = new LoginPage();
-        var authInfo = new DataHelper.AuthInfo();
+        var authInfo = DataHelper.getAuthInfo();
+        var codeInfo = DataHelper.getCodeInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        dashboardPage = verificationPage.validVerify(authInfo);
-        startBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        startBalance2 = dashboardPage.getBalance(dashboardPage.card2);
-        var transactionPage = dashboardPage.clickTransaction(dashboardPage.card1);
+        dashboardPage = verificationPage.validVerify(codeInfo);
+        startBalance1 = dashboardPage.getBalanceFirst();
+        startBalance2 = dashboardPage.getBalanceSecond();
+        var transactionPage = dashboardPage.clickTransaction(DataHelper.getFirstCard());
         var cardNumber = DataHelper.getSecondCard().getNumber();
         transactionPage.invalidTransaction(Integer.toString(sum), String.valueOf(cardNumber));
     }
@@ -78,12 +80,13 @@ public class MoneyTransferTest {
     void shouldNotTransferMoneyBetweenOneCard() {
         int sum = 1;
         var loginPage = new LoginPage();
-        var authInfo = new DataHelper.AuthInfo();
+        var authInfo = DataHelper.getAuthInfo();
+        var codeInfo = DataHelper.getCodeInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        dashboardPage = verificationPage.validVerify(authInfo);
-        startBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        startBalance2 = dashboardPage.getBalance(dashboardPage.card2);
-        var transactionPage = dashboardPage.clickTransaction(dashboardPage.card1);
+        dashboardPage = verificationPage.validVerify(codeInfo);
+        startBalance1 = dashboardPage.getBalanceFirst();
+        startBalance2 = dashboardPage.getBalanceSecond();
+        var transactionPage = dashboardPage.clickTransaction(DataHelper.getFirstCard());
         var cardNumber = DataHelper.getFirstCard().getNumber();
         transactionPage.invalidTransaction(Integer.toString(sum), String.valueOf(cardNumber));
     }
@@ -92,12 +95,13 @@ public class MoneyTransferTest {
     void shouldNotTransfer0MoneyBetweenCards() {
         int sum = 0;
         var loginPage = new LoginPage();
-        var authInfo = new DataHelper.AuthInfo();
+        var authInfo = DataHelper.getAuthInfo();
+        var codeInfo = DataHelper.getCodeInfo();
         var verificationPage = loginPage.validLogin(authInfo);
-        dashboardPage = verificationPage.validVerify(authInfo);
-        startBalance1 = dashboardPage.getBalance(dashboardPage.card1);
-        startBalance2 = dashboardPage.getBalance(dashboardPage.card2);
-        var transactionPage = dashboardPage.clickTransaction(dashboardPage.card1);
+        dashboardPage = verificationPage.validVerify(codeInfo);
+        startBalance1 = dashboardPage.getBalanceFirst();
+        startBalance2 = dashboardPage.getBalanceSecond();
+        var transactionPage = dashboardPage.clickTransaction(DataHelper.getFirstCard());
         var cardNumber = DataHelper.getFirstCard().getNumber();
         transactionPage.invalidTransaction(Integer.toString(sum), String.valueOf(cardNumber));
     }
